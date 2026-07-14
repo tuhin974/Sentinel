@@ -1,0 +1,5 @@
+log_path: logs/sample.log
+
+model_path: models/isolation_forest.pkl
+
+alert_threshold: -1
