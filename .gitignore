@@ -1,4 +1,15 @@
+# Virtual Environment
 venv/
+
+# Python Cache
 __pycache__/
 *.pyc
-models/
+
+# VS Code
+.vscode/
+
+# Environment Variables
+.env
+
+# Trained ML Models
+models/*.pkl
