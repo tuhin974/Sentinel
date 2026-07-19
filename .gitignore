@@ -13,3 +13,10 @@ __pycache__/
 
 # Trained ML Models
 models/*.pkl
+
+# Jupyter Notebook Checkpoints
+.ipynb_checkpoints/
+
+# OS Files
+.DS_Store
+Thumbs.db
