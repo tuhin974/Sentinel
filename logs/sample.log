@@ -2,4 +2,8 @@
 127.0.0.1 - - [15/Jul/2026:10:02:30] "POST /register HTTP/1.1" 201
 192.168.1.10 - - [15/Jul/2026:10:03:40] "GET /admin HTTP/1.1" 500
 192.168.1.20 - - [15/Jul/2026:10:04:15] "GET /search?q=test HTTP/1.1" 200
-10.0.0.5 - - [15/Jul/2026:10:05:55] "POST /login HTTP/1.1" 403
+10.0.0.5 - - [15/Jul/2026:10:05:55] "POST /login HTTP/1.1" 403GET /home HTTP/1.1 200
+
+GET /index.php?id=' OR 1=1 -- HTTP/1.1 200
+
+GET /../../etc/passwd HTTP/1.1 404
