@@ -1,0 +1,4 @@
+2026-07-23 12:32:52 | INFO | ====================================
+2026-07-23 12:32:52 | INFO | Sentinel started
+2026-07-23 12:32:52 | INFO | Monitoring log file: logs/sample.log
+2026-07-23 12:33:35 | INFO | Normal request | IP=127.0.0.1 | Method=GET | URL=/home | Status=200
