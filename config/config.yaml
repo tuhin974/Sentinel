@@ -1,5 +1,7 @@
-log_path: logs/sample.log
+log_file: logs/sample.log
 
-model_path: models/isolation_forest.pkl
+model_path: models/model.pkl
+
+log_level: WARNING
 
 alert_threshold: -1

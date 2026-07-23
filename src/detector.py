@@ -2,7 +2,11 @@ import joblib
 import pandas as pd
 
 # Load the trained model only once
-model = joblib.load("models/model.pkl")
+from src.config import load_config
+
+config = load_config()
+
+model = joblib.load(config["model_path"])
 
 
 def predict_anomaly(features):

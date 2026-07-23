@@ -3,8 +3,11 @@ from src.parser import parse_log
 from src.features import extract_features
 from src.detector import predict_anomaly
 from src.logger import logger
+from src.config import load_config
 
-LOG_FILE = "logs/sample.log"
+config = load_config()
+
+LOG_FILE = config["log_file"]
 
 logger.info("====================================")
 logger.info("Sentinel started")
