@@ -6,3 +6,6 @@
 172.16.1.50 - - [15/Jul/2026:10:30:25] "POST /payment HTTP/1.1" 500
 10.0.0.20 - - [15/Jul/2026:10:40:00] "GET /dashboard HTTP/1.1" 200
 10.0.0.20 - - [16/Jul/2026:16:59:00] "POST /admin HTTP/1.1" 500
+127.0.0.1 - - [23/Jul/2026:10:15:00] "GET /home HTTP/1.1" 200
+127.0.0.1 - - [23/Jul/2026:10:15:00] "GET /home HTTP/1.1" 200
+10.0.0.20 - - [23/Jul/2026:10:20:00] "POST /admin?query=DROP TABLE users HTTP/1.1" 500
