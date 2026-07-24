@@ -1,4 +1,9 @@
 venv/
 __pycache__/
 *.pyc
+
+.env
+
+logs/*.log
+
 models/*.pkl

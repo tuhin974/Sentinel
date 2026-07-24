@@ -2,7 +2,7 @@ log_file: logs/sample.log
 
 model_path: models/model.pkl
 
-log_level: WARNING
+log_level: INFO
 
 alert_threshold: -1
 

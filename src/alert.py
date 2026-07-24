@@ -1,10 +1,14 @@
+import os
+from pathlib import Path
+
 import requests
+from dotenv import load_dotenv
 
-from src.config import load_config
+# Load .env from project root
+env_path = Path(__file__).resolve().parent.parent / ".env"
+load_dotenv(dotenv_path=env_path)
 
-config = load_config()
-
-WEBHOOK_URL = config["slack_webhook"]
+WEBHOOK_URL = os.getenv("SLACK_WEBHOOK")
 
 
 def send_slack_alert(parsed_data):
@@ -12,9 +16,12 @@ def send_slack_alert(parsed_data):
     Send anomaly alert to Slack.
     """
 
+    if not WEBHOOK_URL:
+        print("⚠️ Slack webhook not configured.")
+        return None
+
     message = {
-        "text":
-        f"""
+        "text": f"""
 🚨 *Sentinel Alert*
 
 *Anomaly Detected!*
@@ -27,9 +34,16 @@ Time: {parsed_data['timestamp']}
 """
     }
 
-    response = requests.post(
-        WEBHOOK_URL,
-        json=message
-    )
+    try:
+        response = requests.post(
+            WEBHOOK_URL,
+            json=message,
+            timeout=10
+        )
 
-    return response.status_code
+        response.raise_for_status()
+        return response.status_code
+
+    except requests.exceptions.RequestException as e:
+        print(f"Slack Error: {e}")
+        return None
