@@ -4,6 +4,7 @@ from src.features import extract_features
 from src.detector import predict_anomaly
 from src.logger import logger
 from src.config import load_config
+from src.alert import send_slack_alert
 
 config = load_config()
 
@@ -56,7 +57,10 @@ for log_line in tail_file(LOG_FILE):
             f"Status={parsed_data['status']}"
         )
 
+        send_slack_alert(parsed_data)
+
         print("🚨 ANOMALY DETECTED")
+        print("📩 Slack notification sent.")
 
     else:
 

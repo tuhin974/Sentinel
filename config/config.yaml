@@ -5,3 +5,6 @@ model_path: models/model.pkl
 log_level: WARNING
 
 alert_threshold: -1
+
+
+slack_webhook: "MY_SLACK_WEBHOOK_URL"
