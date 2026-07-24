@@ -1,3 +1,4 @@
+import time
 from src.tailer import tail_file
 from src.parser import parse_log
 from src.features import extract_features
@@ -9,6 +10,13 @@ from src.alert import send_slack_alert
 config = load_config()
 
 LOG_FILE = config["log_file"]
+
+start_time = time.time()
+
+processed_logs = 0
+normal_logs = 0
+anomaly_logs = 0
+slack_alerts = 0
 
 logger.info("====================================")
 logger.info("Sentinel started")
@@ -24,6 +32,7 @@ for log_line in tail_file(LOG_FILE):
 
     if not log_line.strip():
         continue
+    processed_logs += 1
 
     parsed_data = parse_log(log_line)
 
@@ -34,22 +43,32 @@ for log_line in tail_file(LOG_FILE):
 
     features = extract_features(parsed_data)
 
-    prediction = predict_anomaly(features)
-
-
-    print("\n========== NEW LOG ==========")
-    print(log_line)
-
-    print("\nParsed Data:")
-    print(parsed_data)
-
-    print("\nExtracted Features:")
-    print(features)
-
-    print("\nPrediction:")
+    prediction, score = predict_anomaly(features)
 
     if prediction == -1:
+        confidence = min(90 + abs(score) * 100, 99.9)
+    else:
+        confidence = min(70 + score * 100, 99.9)
 
+
+    print("\n" + "=" * 60)
+    print("🛡️ Sentinel - Real-Time Log Anomaly Detector")
+    print("=" * 60)
+
+    print(f"IP Address : {parsed_data['ip']}")
+    print(f"Timestamp  : {parsed_data['timestamp']}")
+    print(f"Method     : {parsed_data['method']}")
+    print(f"URL        : {parsed_data['url']}")
+    print(f"Status     : {parsed_data['status']}")
+
+    print("\nPrediction")
+    print("-" * 20)
+    print(f"Score      : {score:.4f}")
+    print(f"Confidence : {confidence:.1f}%")
+
+
+    if prediction == -1:
+        anomaly_logs += 1
         logger.warning(
             f"Anomaly detected | IP={parsed_data['ip']} | "
             f"Method={parsed_data['method']} | "
@@ -58,12 +77,13 @@ for log_line in tail_file(LOG_FILE):
         )
 
         send_slack_alert(parsed_data)
+        slack_alerts += 1
 
-        print("🚨 ANOMALY DETECTED")
-        print("📩 Slack notification sent.")
+        print("Prediction : 🚨 ANOMALY")
+        print("Slack      : Sent ✅")
 
     else:
-
+        normal_logs += 1
         logger.info(
             f"Normal request | IP={parsed_data['ip']} | "
             f"Method={parsed_data['method']} | "
@@ -71,4 +91,20 @@ for log_line in tail_file(LOG_FILE):
             f"Status={parsed_data['status']}"
         )
 
-        print("✅ Normal Request")
+        print("Prediction : ✅ NORMAL")
+
+        elapsed = int(time.time() - start_time)
+
+        hours = elapsed // 3600
+        minutes = (elapsed % 3600) // 60
+        seconds = elapsed % 60
+
+        print("\n====================================")
+        print("📊 Sentinel Dashboard")
+        print("====================================")
+        print(f"Processed Logs : {processed_logs}")
+        print(f"Normal Logs    : {normal_logs}")
+        print(f"Anomalies      : {anomaly_logs}")
+        print(f"Slack Alerts   : {slack_alerts}")
+        print(f"Uptime         : {hours:02}:{minutes:02}:{seconds:02}")
+        print("====================================")

@@ -16,3 +16,13 @@
 127.0.0.1 - - [23/Jul/2026:12:33:00] "GET /home HTTP/1.1" 200
 127.0.0.1 - - [23/Jul/2026:12:56:00] "GET /home HTTP/1.1" 200
 10.0.0.20 - - [24/Jul/2026:10:30:00] "POST /admin?query=DROP TABLE users HTTP/1.1" 500
+10.0.0.20 - - [24/Jul/2026:10:49:00] "POST /admin?query=DROP TABLE users HTTP/1.1" 500
+127.0.0.1 - - [23/Jul/2026:12:56:00] "GET /home HTTP/1.1" 200
+10.0.0.20 - - [24/Jul/2026:10:49:00] "POST /admin?query=DROP TABLE users HTTP/1.1" 500
+127.0.0.1 - - [23/Jul/2026:12:56:00] "GET /home HTTP/1.1" 200
+127.0.0.1 - - [23/Jul/2026:12:56:00] "GET /home HTTP/1.1" 200
+10.0.0.20 - - [24/Jul/2026:10:49:00] "POST /admin?query=DROP TABLE users HTTP/1.1" 500
+127.0.0.1 - - [23/Jul/2026:12:56:00] "GET /home HTTP/1.1" 200
+10.0.0.20 - - [24/Jul/2026:10:49:00] "POST /admin?query=DROP TABLE users HTTP/1.1" 500
+127.0.0.1 - - [23/Jul/2026:12:56:00] "GET /home HTTP/1.1" 200
+10.0.0.20 - - [24/Jul/2026:10:49:00] "POST /admin?query=DROP TABLE users HTTP/1.1" 500
