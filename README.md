@@ -1,6 +1,6 @@
 # 🛡️ Sentinel - Real-Time Log Anomaly Detector
 
-A real-time log monitoring and anomaly detection system developed during my internship at **Infyntrek Systems**.
+A real-time log monitoring and anomaly detection system developed during my internship at **Infyntrek Systèmes**.
 
 Sentinel continuously monitors application log files, extracts meaningful features, applies a Machine Learning model (Isolation Forest), detects anomalous activities, and instantly notifies the team through Slack.
 
@@ -306,7 +306,7 @@ screenshots/
 
 # 👨‍💻 Internship Project
 
-This project was developed during my internship at **Infyntrek Systems** as a real-world backend and machine learning integration project focused on real-time log anomaly detection.
+This project was developed during my internship at **Infyntrek Systèmes** as a real-world backend and machine learning integration project focused on real-time log anomaly detection.
 
 ---
 
@@ -318,4 +318,4 @@ This project is intended for educational and internship demonstration purposes.
 
 # ⭐ Acknowledgement
 
-Special thanks to **Infyntrek Systems** for providing the opportunity to work on a real-world cybersecurity and machine learning project that strengthened my skills in Python development, backend engineering, and ML integration.
+Special thanks to **Infyntrek Systèmes** for providing the opportunity to work on a real-world cybersecurity and machine learning project that strengthened my skills in Python development, backend engineering, and ML integration.
