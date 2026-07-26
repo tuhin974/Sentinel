@@ -96,6 +96,7 @@ for log_line in tailer.follow():
 
         print("Prediction : ✅ NORMAL")
 
+
         elapsed = int(time.time() - start_time)
 
         hours = elapsed // 3600
