@@ -1,5 +1,10 @@
-log_path: logs/sample.log
+log_file: logs/sample.log
 
-model_path: models/isolation_forest.pkl
+model_path: models/model.pkl
+
+log_level: INFO
 
 alert_threshold: -1
+
+
+slack_webhook: "MY_SLACK_WEBHOOK_URL"
