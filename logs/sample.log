@@ -56,6 +56,9 @@ GET /../../etc/passwd HTTP/1.1 404
 10.0.0.20 - - [25/Jul/2026:09:34:00] "POST /admin?query=DROP TABLE users HTTP/1.1" 500
 127.0.0.1 - - [25/Jul/2026:09:34:00] "GET /home HTTP/1.1" 200
 10.0.0.20 - - [25/Jul/2026:09:34:00] "POST /admin?query=DROP TABLE users HTTP/1.1" 500
-127.0.0.1 - - [26/Jul/2026:11:05:00] "GET /home HTTP/1.1" 200
-10.0.0.20 - - [26/Jul/2026:11:06:00] "POST /admin?query=DROP TABLE users HTTP/1.1" 500
-192.168.1.50 - - [26/Jul/2026:11:07:00] "GET /../../etc/passwd HTTP/1.1" 404
+127.0.0.1 - - [25/Jul/2026:09:34:00] "GET /home HTTP/1.1" 200
+10.0.0.20 - - [26/Jul/2026:13:39:00] "POST /admin?query=DROP TABLE users HTTP/1.1" 500
+127.0.0.1 - - [25/Jul/2026:09:34:00] "GET /home HTTP/1.1" 200
+10.0.0.20 - - [26/Jul/2026:13:43:00] "POST /admin?query=DROP TABLE users HTTP/1.1" 500
+127.0.0.1 - - [26/Jul/2026:15:10:00] "GET /home HTTP/1.1" 200
+10.0.0.20 - - [26/Jul/2026:14:41:00] "POST /admin?query=DROP TABLE users HTTP/1.1" 500

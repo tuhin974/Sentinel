@@ -3,9 +3,26 @@ import joblib
 
 
 class LogDetector:
-    def __init__(self):
-        self.model = joblib.load("models/anomaly_detector.pkl")
-        self.vectorizer = joblib.load("models/vectorizer.pkl")
+
+    def __init__(
+        self,
+        model_path="models/anomaly_detector.pkl",
+        vectorizer_path="models/vectorizer.pkl"
+    ):
+        from pathlib import Path
+        import sys
+
+        if not Path(model_path).exists():
+            print(f"❌ Model not found: {model_path}")
+            sys.exit(1)
+
+        if not Path(vectorizer_path).exists():
+            print(f"❌ Vectorizer not found: {vectorizer_path}")
+            sys.exit(1)
+
+        self.model = joblib.load(model_path)
+        self.vectorizer = joblib.load(vectorizer_path)
+
 
         self.attack_patterns = [
             r"\.\./",

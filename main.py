@@ -1,4 +1,5 @@
 import time
+import argparse
 from src.tailer import LogTailer
 from src.parser import parse_log
 from src.features import extract_features
@@ -8,9 +9,37 @@ from src.config import load_config
 from src.alert import send_slack_alert
 
 config = load_config()
-detector = LogDetector()
 
-LOG_FILE = config["log_file"]
+parser = argparse.ArgumentParser(
+    description="Sentinel - Real-Time Log Anomaly Detector"
+)
+
+parser.add_argument(
+    "--log",
+    default=config["log_file"],
+    help="Path to the log file"
+)
+
+parser.add_argument(
+    "--model",
+    default="models/anomaly_detector.pkl",
+    help="Path to the trained ML model"
+)
+
+parser.add_argument(
+    "--vectorizer",
+    default="models/vectorizer.pkl",
+    help="Path to the TF-IDF vectorizer"
+)
+
+args = parser.parse_args()
+
+LOG_FILE = args.log
+
+detector = LogDetector(
+    model_path=args.model,
+    vectorizer_path=args.vectorizer
+)
 
 start_time = time.time()
 
