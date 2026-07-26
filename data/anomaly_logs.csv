@@ -1,0 +1,31 @@
+message
+GET /../../etc/passwd HTTP/1.1 404
+GET /../../../etc/shadow HTTP/1.1 404
+GET /.env HTTP/1.1 403
+GET /.git/config HTTP/1.1 403
+GET /phpmyadmin HTTP/1.1 404
+GET /wp-admin HTTP/1.1 404
+GET /administrator HTTP/1.1 403
+GET /admin HTTP/1.1 403
+GET /backup.zip HTTP/1.1 403
+GET /database.sql HTTP/1.1 403
+GET /dump.sql HTTP/1.1 403
+GET /config.php HTTP/1.1 403
+GET /index.php?id=' OR 1=1 -- HTTP/1.1 200
+GET /login?user=admin'-- HTTP/1.1 200
+POST /login username=admin'-- password=test
+POST /login username=' OR '1'='1 password=test
+GET /?cmd=whoami HTTP/1.1 200
+GET /?cmd=id HTTP/1.1 200
+GET /shell.php HTTP/1.1 200
+GET /webshell.php HTTP/1.1 200
+GET /cgi-bin/test.cgi HTTP/1.1 500
+GET /server-status HTTP/1.1 403
+GET /debug HTTP/1.1 500
+GET /private HTTP/1.1 403
+GET /secret HTTP/1.1 403
+GET /root HTTP/1.1 403
+GET /tmp HTTP/1.1 403
+GET /dev HTTP/1.1 403
+GET /admin/config HTTP/1.1 403
+GET /internal-api HTTP/1.1 403

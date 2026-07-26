@@ -1,14 +1,30 @@
 import time
+from pathlib import Path
 
-def tail_file(filepath):
-    with open(filepath, "r") as file:
-        file.seek(0, 2)
+
+class LogTailer:
+    def __init__(self, file_path):
+        self.file_path = Path(file_path)
+
+    def follow(self):
+        while not self.file_path.exists():
+            print(f"Waiting for {self.file_path}")
+            time.sleep(1)
+
+        print(f"Monitoring: {self.file_path}")
+
+        last_position = self.file_path.stat().st_size
 
         while True:
-            line = file.readline()
+            with self.file_path.open("r", encoding="utf-8") as file:
+                file.seek(last_position)
 
-            if not line:
-                time.sleep(1)
-                continue
+                new_lines = file.readlines()
 
-            yield line.strip()
+                if new_lines:
+                    for line in new_lines:
+                        yield line.strip()
+
+                    last_position = file.tell()
+
+            time.sleep(0.5)

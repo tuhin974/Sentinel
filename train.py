@@ -1,24 +1,35 @@
-import pandas as pd
-from sklearn.ensemble import IsolationForest
+import os
 import joblib
+import pandas as pd
 
-# Loading the training data
-data = pd.read_csv("data/normal_logs.csv")
+from sklearn.ensemble import IsolationForest
+from sklearn.feature_extraction.text import TfidfVectorizer
 
-print(f"Loaded {len(data)} training samples.")
 
-# Isolation forest model training
+os.makedirs("models", exist_ok=True)
+
+# Load normal training logs
+df = pd.read_csv("data/normal_logs.csv")
+logs = df["message"].fillna("").astype(str)
+
+# Convert log messages into numerical features
+vectorizer = TfidfVectorizer()
+features = vectorizer.fit_transform(logs)
+
+# Train anomaly-detection model
 model = IsolationForest(
     n_estimators=100,
-    contamination=0.05,
+    contamination=0.1,
     random_state=42
 )
 
-#training
-model.fit(data)
+model.fit(features)
 
-#save
-joblib.dump(model, "models/model.pkl")
+# Save model and vectorizer
+joblib.dump(model, "models/anomaly_detector.pkl")
+joblib.dump(vectorizer, "models/vectorizer.pkl")
 
-print("\n✅ Model trained successfully!")
-print("✅ Model saved as models/model.pkl")
+print("Model trained successfully!")
+print("Files saved:")
+print("- models/anomaly_detector.pkl")
+print("- models/vectorizer.pkl")

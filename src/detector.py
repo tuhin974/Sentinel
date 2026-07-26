@@ -1,27 +1,44 @@
+import re
 import joblib
-import pandas as pd
-
-from src.config import load_config
-
-config = load_config()
-
-model = joblib.load(config["model_path"])
 
 
-def predict_anomaly(features):
-    """
-    Predict whether the log is normal or anomalous.
+class LogDetector:
+    def __init__(self):
+        self.model = joblib.load("models/anomaly_detector.pkl")
+        self.vectorizer = joblib.load("models/vectorizer.pkl")
 
-    Returns
-    -------
-    tuple
-        (prediction, score)
-    """
+        self.attack_patterns = [
+            r"\.\./",
+            r"/etc/passwd",
+            r"\bor\s+1\s*=\s*1\b",
+            r"union\s+select",
+            r"drop\s+table",
+            r"<script",
+            r"/admin",
+            r"cmd=",
+            r"exec\(",
+        ]
 
-    data = pd.DataFrame([features])
+    def check_rules(self, log_message):
+        log_message = log_message.lower()
 
-    prediction = model.predict(data)[0]
+        for pattern in self.attack_patterns:
+            if re.search(pattern, log_message):
+                return True
 
-    score = model.decision_function(data)[0]
+        return False
 
-    return prediction, score
+    def predict(self, log_message):
+        rule_match = self.check_rules(log_message)
+
+        features = self.vectorizer.transform([log_message])
+        prediction = self.model.predict(features)
+        score = self.model.decision_function(features)[0]
+
+        if rule_match:
+            return "ANOMALY", score
+
+        if prediction[0] == -1:
+            return "ANOMALY", score
+
+        return "NORMAL", score
