@@ -1,67 +1,61 @@
-# 🛡️ Sentinel - Real-Time Log Anomaly Detector
+# 🛡️ Sentinel – Real-Time Log Anomaly Detector
 
 A real-time log monitoring and anomaly detection system developed during my internship at **Infyntrek Systèmes**.
 
-Sentinel continuously monitors application log files, extracts meaningful features, applies a Machine Learning model (Isolation Forest), detects anomalous activities, and instantly notifies the team through Slack.
-
----
-
-# 📌 Project Overview
-
-Modern applications generate thousands of log entries every minute, making manual monitoring inefficient and error-prone.
-
-Sentinel automates this process by:
-
-- Monitoring logs in real time
-- Parsing Apache/Nginx log entries
-- Extracting security-related features
-- Detecting anomalies using Machine Learning
-- Sending instant Slack alerts
-- Maintaining professional log records
-- Displaying a live monitoring dashboard
+Sentinel continuously monitors server log files, extracts meaningful features, applies Machine Learning and rule-based detection techniques, and immediately alerts administrators whenever suspicious activity is detected.
 
 ---
 
 # ✨ Features
 
-- ✅ Real-Time Log Monitoring
-- ✅ Apache/Nginx Log Parsing
-- ✅ Feature Extraction
-- ✅ Isolation Forest Anomaly Detection
-- ✅ Confidence Score
-- ✅ Slack Alert Integration
-- ✅ YAML Configuration
-- ✅ Environment Variable Security (.env)
-- ✅ Professional Logging
-- ✅ Live Monitoring Dashboard
-- ✅ Clean Terminal Interface
+- 📄 Real-time log monitoring
+- 🔍 Apache/Nginx log parsing
+- ⚙️ Automatic feature extraction
+- 🤖 Machine Learning anomaly detection
+- 🛡️ Rule-based attack detection
+- 📊 Confidence score prediction
+- 🔔 Slack notification integration
+- 📝 Professional logging
+- ⚡ Live monitoring dashboard
+- 🔒 Secure environment variable support (.env)
 
 ---
 
 # 🏗️ System Architecture
 
 ```
-                 Log File
-                    │
-                    ▼
-             File Tailer Module
-                    │
-                    ▼
-               Log Parser
-                    │
-                    ▼
-          Feature Extraction
-                    │
-                    ▼
-         Isolation Forest Model
-                    │
-          ┌─────────┴─────────┐
-          ▼                   ▼
-      Normal Log         Anomaly Log
-          │                   │
-          ▼                   ▼
- Dashboard Update      Slack Notification
-                        Log Recording
+                  ┌──────────────────┐
+                  │   Server Logs    │
+                  └────────┬─────────┘
+                           │
+                           ▼
+                  ┌──────────────────┐
+                  │ Real-Time Tailer │
+                  └────────┬─────────┘
+                           │
+                           ▼
+                  ┌──────────────────┐
+                  │  Log Parser      │
+                  └────────┬─────────┘
+                           │
+                           ▼
+                  ┌──────────────────┐
+                  │ Feature Extractor│
+                  └────────┬─────────┘
+                           │
+            ┌──────────────┴──────────────┐
+            ▼                             ▼
+    Rule-Based Engine             Isolation Forest
+            │                             │
+            └──────────────┬──────────────┘
+                           ▼
+                  ┌──────────────────┐
+                  │ Prediction Engine│
+                  └────────┬─────────┘
+                           │
+           ┌───────────────┴───────────────┐
+           ▼                               ▼
+    Slack Notification             Live Dashboard
 ```
 
 ---
@@ -75,7 +69,8 @@ Sentinel/
 │   └── config.yaml
 │
 ├── data/
-│   └── normal_logs.csv
+│   ├── normal_logs.csv
+│   └── anomaly_logs.csv
 │
 ├── docs/
 │
@@ -83,6 +78,8 @@ Sentinel/
 │   └── sample.log
 │
 ├── models/
+│   ├── anomaly_detector.pkl
+│   ├── vectorizer.pkl
 │   └── model.pkl
 │
 ├── screenshots/
@@ -91,74 +88,66 @@ Sentinel/
 │   ├── alert.py
 │   ├── config.py
 │   ├── detector.py
+│   ├── feature_extractor.py
 │   ├── features.py
 │   ├── logger.py
 │   ├── parser.py
 │   └── tailer.py
 │
 ├── tests/
-│   ├── test_alert.py
-│   ├── test_config.py
-│   ├── test_logger.py
-│   ├── test_parser.py
-│   └── test_tailer.py
 │
-├── .env
-├── .gitignore
 ├── main.py
 ├── train.py
-├── README.md
-└── requirements.txt
+├── run_sentinel.py
+├── requirements.txt
+└── README.md
 ```
 
 ---
 
 # ⚙️ Technologies Used
 
-| Technology | Purpose |
-|------------|---------|
-| Python | Backend Development |
-| Pandas | Data Processing |
-| Scikit-learn | Machine Learning |
-| Isolation Forest | Anomaly Detection |
-| Joblib | Model Persistence |
-| Requests | Slack API Communication |
-| PyYAML | Configuration Management |
-| python-dotenv | Secure Environment Variables |
+- Python 3.x
+- Scikit-learn
+- Pandas
+- NumPy
+- Joblib
+- Requests
+- PyYAML
+- python-dotenv
 
 ---
 
 # 🚀 Installation
 
-Clone the repository
+## Clone Repository
 
 ```bash
-git clone https://github.com/your-username/Sentinel.git
-
+git clone https://github.com/tuhin974/Sentinel.git
 cd Sentinel
 ```
 
-Create Virtual Environment
+---
 
-```bash
-python -m venv venv
-```
-
-Activate
+## Create Virtual Environment
 
 Windows
 
 ```bash
+python -m venv venv
 venv\Scripts\activate
 ```
 
-Linux / macOS
+Linux/macOS
 
 ```bash
+python3 -m venv venv
 source venv/bin/activate
 ```
 
-Install Dependencies
+---
+
+## Install Dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -166,9 +155,21 @@ pip install -r requirements.txt
 
 ---
 
-# 🔧 Configuration
+# 🔐 Configure Environment Variables
 
-Update
+Create a `.env` file in the project root.
+
+Example:
+
+```env
+SLACK_WEBHOOK=https://hooks.slack.com/services/XXXXXXXX
+```
+
+---
+
+# ⚙️ Configuration
+
+Edit
 
 ```
 config/config.yaml
@@ -178,27 +179,28 @@ Example
 
 ```yaml
 log_file: logs/sample.log
-model_path: models/model.pkl
-log_level: INFO
-```
-
-Create a `.env` file
-
-```
-SLACK_WEBHOOK=YOUR_SLACK_WEBHOOK_URL
 ```
 
 ---
 
-# ▶️ Running the Project
+# 🧠 Train the Model
 
-Train the Model
+Run
 
 ```bash
 python train.py
 ```
 
-Start Sentinel
+This generates
+
+```
+models/anomaly_detector.pkl
+models/vectorizer.pkl
+```
+
+---
+
+# ▶️ Run Sentinel
 
 ```bash
 python main.py
@@ -206,116 +208,122 @@ python main.py
 
 ---
 
-# 📊 Sample Output
+# 🧪 Sample Output
+
+Normal Request
 
 ```
-============================================================
-🛡️ Sentinel - Real-Time Log Anomaly Detector
-============================================================
+Prediction : ✅ NORMAL
 
-IP Address : 10.0.0.20
-Method     : POST
-URL        : /admin?query=DROP TABLE users
-Status     : 500
+Confidence : 78.2%
+```
 
-Prediction
---------------------
-Score      : -0.0334
-Confidence : 93.3%
+Anomaly
 
+```
 Prediction : 🚨 ANOMALY
 
-Slack      : Sent ✅
+Slack : Sent ✅
+
+Confidence : 93.8%
 ```
-
----
-
-# 📈 Dashboard
-
-Sentinel continuously displays
-
-- Processed Logs
-- Normal Requests
-- Anomalies
-- Slack Alerts
-- System Uptime
-
----
-
-# 🔔 Slack Integration
-
-Whenever an anomaly is detected:
-
-- A Slack notification is sent instantly.
-- The event is recorded in the application log.
-- The dashboard statistics are updated.
-
----
-
-# 🔍 Testing
-
-Run test modules
-
-```bash
-python tests/test_parser.py
-
-python tests/test_config.py
-
-python tests/test_logger.py
-
-python tests/test_alert.py
-```
-
----
-
-# 🔐 Security
-
-- Slack Webhook stored using `.env`
-- Configuration separated using YAML
-- Runtime logs ignored from Git
-- Secrets excluded using `.gitignore`
 
 ---
 
 # 📸 Screenshots
 
-Screenshots will be available in:
+## Dashboard
+
+Place screenshot here
 
 ```
-screenshots/
+screenshots/dashboard.png
 ```
 
+---
+
+## Slack Alert
+
+Place screenshot here
+
+```
+screenshots/slack_alert.png
+```
+
+---
+
+## Terminal Output
+
+Place screenshot here
+
+```
+screenshots/terminal.png
+```
+
+---
+
+# 🧪 Testing
+
+Run
+
+```bash
+python test_alert.py
+python test_detector.py
+python test_pipeline.py
+```
+
+---
+
+# 👨‍💻 Contributors
+
+### Backend Development
+
+**Tuhin Roy**
+
+- Real-time monitoring
+- Log parser
+- Feature extraction
+- Configuration
+- Logging
+- Slack Integration
 - Dashboard
-- Slack Alert
-- Normal Request
-- Anomaly Detection
+- Repository Management
+- Git Integration
 
 ---
 
-# 🚀 Future Improvements
+### Machine Learning Development
 
-- Web Dashboard
-- Docker Deployment
-- Email Alerts
-- Multiple ML Models
-- REST API
-- Cloud Deployment
-- Grafana Integration
+**Manish Gowda**
+
+- Dataset preparation
+- Isolation Forest training
+- Model optimization
+- Feature vectorization
+- Detection pipeline
 
 ---
 
-# 👨‍💻 Internship Project
+# 📈 Project Status
 
-This project was developed during my internship at **Infyntrek Systèmes** as a real-world backend and machine learning integration project focused on real-time log anomaly detection.
+| Module | Status |
+|---------|--------|
+| Backend | ✅ Complete |
+| Machine Learning | ✅ Complete |
+| Dashboard | ✅ Complete |
+| Slack Alerts | ✅ Complete |
+| Logging | ✅ Complete |
+| Testing | ✅ Complete |
+| Integration | ✅ Complete |
 
 ---
 
 # 📄 License
 
-This project is intended for educational and internship demonstration purposes.
+This project was developed as part of an internship at **Infyntrek Systèmes** for educational and learning purposes.
 
 ---
 
 # ⭐ Acknowledgement
 
-Special thanks to **Infyntrek Systèmes** for providing the opportunity to work on a real-world cybersecurity and machine learning project that strengthened my skills in Python development, backend engineering, and ML integration.
+Special thanks to **Infyntrek Systèmes** for providing the opportunity to work on a real-world cybersecurity and machine learning project.
