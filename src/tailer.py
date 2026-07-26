@@ -11,7 +11,6 @@ class LogTailer:
             print(f"Waiting for {self.file_path}")
             time.sleep(1)
 
-        print(f"Monitoring: {self.file_path}")
 
         last_position = self.file_path.stat().st_size
 

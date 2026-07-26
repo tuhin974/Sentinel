@@ -1,13 +1,14 @@
 import time
-from src.tailer import tail_file
+from src.tailer import LogTailer
 from src.parser import parse_log
 from src.features import extract_features
-from src.detector import predict_anomaly
+from src.detector import LogDetector
 from src.logger import logger
 from src.config import load_config
 from src.alert import send_slack_alert
 
 config = load_config()
+detector = LogDetector()
 
 LOG_FILE = config["log_file"]
 
@@ -28,7 +29,9 @@ print("====================================")
 print(f"Monitoring: {LOG_FILE}")
 print("Waiting for new log entries...\n")
 
-for log_line in tail_file(LOG_FILE):
+tailer = LogTailer(LOG_FILE)
+
+for log_line in tailer.follow():
 
     if not log_line.strip():
         continue
@@ -43,12 +46,12 @@ for log_line in tail_file(LOG_FILE):
 
     features = extract_features(parsed_data)
 
-    prediction, score = predict_anomaly(features)
+    prediction, score = detector.predict(log_line)
 
-    if prediction == -1:
+    if prediction == "ANOMALY":
         confidence = min(90 + abs(score) * 100, 99.9)
     else:
-        confidence = min(70 + score * 100, 99.9)
+        confidence = min(70 + max(score, 0) * 100, 99.9)
 
 
     print("\n" + "=" * 60)
@@ -67,7 +70,7 @@ for log_line in tail_file(LOG_FILE):
     print(f"Confidence : {confidence:.1f}%")
 
 
-    if prediction == -1:
+    if prediction == "ANOMALY":
         anomaly_logs += 1
         logger.warning(
             f"Anomaly detected | IP={parsed_data['ip']} | "
