@@ -114,6 +114,16 @@ for log_line in tailer.follow():
         print("Prediction : 🚨 ANOMALY")
         print("Slack      : Sent ✅")
 
+        print("\n====================================")
+        print("📊 Sentinel Dashboard")
+        print("====================================")
+        print(f"Processed Logs : {processed_logs}")
+        print(f"Normal Logs    : {normal_logs}")
+        print(f"Anomalies      : {anomaly_logs}")
+        print(f"Slack Alerts   : {slack_alerts}")
+        print(f"Uptime         : {hours:02}:{minutes:02}:{seconds:02}")
+        print("====================================")
+
     else:
         normal_logs += 1
         logger.info(
